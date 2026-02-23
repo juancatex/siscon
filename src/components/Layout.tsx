@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
     Home, Users, Briefcase, FileText, Settings, HelpCircle, LogOut, Landmark, ChevronDown, Bell, Search, Menu, X
 } from 'lucide-react';
 import { MOCK_DATA } from '../data/mockData';
 
 const Sidebar: React.FC<{ isOpen: boolean, toggle: () => void }> = ({ isOpen, toggle }) => {
+    const navigate = useNavigate();
+
     return (
         <aside className={`sidebar ${isOpen ? 'show' : ''}`} style={{ transform: isOpen ? 'translateX(0)' : '' }}>
             <div className="logo-section">
@@ -29,7 +31,7 @@ const Sidebar: React.FC<{ isOpen: boolean, toggle: () => void }> = ({ isOpen, to
             </nav>
 
             <div className="sidebar-footer">
-                <button className="logout-btn" onClick={() => window.location.href = '/login'}>
+                <button className="logout-btn" onClick={() => navigate('/login')}>
                     <LogOut size={20} />
                     <span>Cerrar Sesión</span>
                 </button>
