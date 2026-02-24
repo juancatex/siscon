@@ -12,8 +12,8 @@ const Aportes: React.FC = () => {
         { id: 1, nombre: 'Aportes_General_Enero.txt', fecha: '05/01/2024', registros: 1250, estado: 'Completado', usuario: 'Oficial de Crédito' },
         { id: 2, nombre: 'Aportes_Complemento_Enero.txt', fecha: '12/01/2024', registros: 450, estado: 'Completado', usuario: 'Caja Central' },
         { id: 3, nombre: 'Recaudacion_Externos_Feb.txt', fecha: '02/02/2024', registros: 1320, estado: 'Completado', usuario: 'Admin Demo' },
-        { id: 4, nombre: 'Planilla_Minera_Feb_P1.txt', fecha: '15/02/2024', registros: 2100, estado: 'Completado', usuario: 'Sistemas' },
-        { id: 5, nombre: 'Planilla_Minera_Feb_P2.txt', fecha: '16/02/2024', registros: 1850, estado: 'Completado', usuario: 'Sistemas' },
+        { id: 4, nombre: 'Planilla_asc_Feb_P1.txt', fecha: '15/02/2024', registros: 2100, estado: 'Completado', usuario: 'Sistemas' },
+        { id: 5, nombre: 'Planilla_asc_Feb_P2.txt', fecha: '16/02/2024', registros: 1850, estado: 'Completado', usuario: 'Sistemas' },
         { id: 6, nombre: 'Carga_Retroactivos_2023.txt', fecha: '20/02/2024', registros: 530, estado: 'Completado', usuario: 'Contabilidad' },
     ]);
 
