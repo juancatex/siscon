@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Search, Plus, Filter, MoreVertical, Eye, Edit, X, Save } from 'lucide-react';
+import { Search, Plus, Filter, MoreVertical, Eye, Edit, X, Save, Download } from 'lucide-react';
 import { MOCK_DATA } from '../data/mockData';
 
 const SociosList: React.FC = () => {
@@ -24,9 +24,14 @@ const SociosList: React.FC = () => {
                     <h1 style={{ fontSize: '2.2rem', fontWeight: 800 }}>Gestión de Socios</h1>
                     <p style={{ color: 'var(--text-muted)' }}>Administración y control de la base de socios institucional</p>
                 </div>
-                <button className="btn btn-primary" onClick={() => openModal({}, 'create')}>
-                    <Plus size={20} /> Nuevo Socio
-                </button>
+                <div style={{ display: 'flex', gap: '15px' }}>
+                    <button className="btn" style={{ background: 'white', border: '1px solid var(--border)' }}>
+                        <Download size={20} color="#16a34a" /> Exportar Reporte
+                    </button>
+                    <button className="btn btn-primary" onClick={() => openModal({}, 'create')}>
+                        <Plus size={20} /> Nuevo Socio
+                    </button>
+                </div>
             </header>
 
             <div className="card">
@@ -38,9 +43,14 @@ const SociosList: React.FC = () => {
                             placeholder="Buscar por nombre, DNI o email..."
                         />
                     </div>
-                    <button className="btn" style={{ background: 'white', border: '1px solid var(--border)' }}>
-                        <Filter size={18} /> Filtros
-                    </button>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <div className="form-group" style={{ margin: 0, width: '180px' }}>
+                            <input type="number" className="form-control" placeholder="Año de Egreso..." style={{ height: '42px' }} />
+                        </div>
+                        <button className="btn" style={{ background: 'white', border: '1px solid var(--border)' }}>
+                            <Filter size={18} /> Filtrar
+                        </button>
+                    </div>
                 </div>
 
                 <div style={{ overflowX: 'auto' }}>
@@ -123,6 +133,8 @@ const SociosList: React.FC = () => {
                                     </div>
 
                                     <div className="info-grid">
+                                        <InfoItem label="Grado Militar" value={selectedSocio.grado || 'Sargento Primero'} />
+                                        <InfoItem label="Año de Egreso" value={selectedSocio.añoEgreso || '2015'} />
                                         <InfoItem label="DNI / Cédula" value={selectedSocio.dni} />
                                         <InfoItem label="Email" value={selectedSocio.email} />
                                         <InfoItem label="Teléfono" value="+593 098 765 4321" />
@@ -150,11 +162,33 @@ const SociosList: React.FC = () => {
                                             <input type="text" className="form-control" defaultValue={selectedSocio?.dni || ''} placeholder="0000000000" />
                                         </div>
                                     </div>
-                                    <div className="form-group">
+
+                                    <div className="info-grid" style={{ marginTop: '1rem' }}>
+                                        <div className="form-group">
+                                            <label>Grado Militar</label>
+                                            <select className="form-control" defaultValue={selectedSocio?.grado || ''}>
+                                                <option value="">Seleccione un grado...</option>
+                                                <option>Sargento Inicial</option>
+                                                <option>Sargento Segundo</option>
+                                                <option>Sargento Primero</option>
+                                                <option>Suboficial Inicial</option>
+                                                <option>Suboficial Segundo</option>
+                                                <option>Suboficial Primero</option>
+                                                <option>Suboficial Mayor</option>
+                                                <option>Suboficial Maestre</option>
+                                            </select>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Año de Egreso</label>
+                                            <input type="number" className="form-control" defaultValue={selectedSocio?.añoEgreso || ''} placeholder="Ej: 2015" />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-group" style={{ marginTop: '1rem' }}>
                                         <label>Correo Electrónico</label>
                                         <input type="email" className="form-control" defaultValue={selectedSocio?.email || ''} placeholder="usuario@ejemplo.com" />
                                     </div>
-                                    <div className="info-grid">
+                                    <div className="info-grid" style={{ marginTop: '1rem' }}>
                                         <div className="form-group">
                                             <label>Sucursal Base</label>
                                             <select className="form-control" defaultValue={selectedSocio?.sucursal || 'Matriz Principal'}>

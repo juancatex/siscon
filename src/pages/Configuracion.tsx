@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import {
     Settings, Shield, Landmark, Bell, Database, Globe,
     Smartphone, Save, CheckCircle, Info, User, Mail,
-    DollarSign, Percent, Calendar, Layers
+    DollarSign, Percent, Calendar, Layers, Receipt, ShieldCheck
 } from 'lucide-react';
 
 const Configuracion: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<'general' | 'seguridad' | 'financiero' | 'notificaciones'>('general');
+    const [activeTab, setActiveTab] = useState<'general' | 'seguridad' | 'financiero' | 'notificaciones' | 'daaro'>('general');
     const [isSaving, setIsSaving] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
 
@@ -59,6 +59,13 @@ const Configuracion: React.FC = () => {
                                 label="Notificaciones"
                                 description="Alertas y comunicación"
                             />
+                            <ConfigMenuItem
+                                active={activeTab === 'daaro'}
+                                onClick={() => setActiveTab('daaro')}
+                                icon={<Receipt size={20} />}
+                                label="DAARO"
+                                description="Liquidación y aprobación"
+                            />
                         </nav>
                     </div>
 
@@ -77,6 +84,7 @@ const Configuracion: React.FC = () => {
                     {activeTab === 'financiero' && <FinanzasConfig />}
                     {activeTab === 'seguridad' && <SeguridadConfig />}
                     {activeTab === 'notificaciones' && <NotificacionesConfig />}
+                    {activeTab === 'daaro' && <DaaroConfig />}
 
                     <div style={{
                         marginTop: '3rem',
@@ -348,6 +356,76 @@ const NotificationToggle = ({ icon, title, desc, enabled }: any) => (
                 left: enabled ? '28px' : '4px',
                 transition: 'all 0.3s ease'
             }} />
+        </div>
+    </div>
+);
+
+const DaaroConfig = () => (
+    <div className="fade-in">
+        <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Receipt className="text-primary" /> Parámetros y Flujo DAARO
+        </h3>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2.5rem' }}>
+            <div className="form-group">
+                <label>Tasa de Rendimiento Anual (%)</label>
+                <div style={{ position: 'relative' }}>
+                    <Percent size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                    <input type="number" className="form-control" style={{ paddingLeft: '3rem' }} defaultValue="4.5" />
+                </div>
+                <p style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '5px' }}>Tasa aplicada al capital de aportes al momento de la liquidación.</p>
+            </div>
+            <div className="form-group">
+                <label>Periodo de Carencia (Días)</label>
+                <div style={{ position: 'relative' }}>
+                    <Calendar size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                    <input type="number" className="form-control" style={{ paddingLeft: '3rem' }} defaultValue="30" />
+                </div>
+            </div>
+        </div>
+
+        <h4 style={{ fontWeight: 800, marginBottom: '1.2rem', paddingBottom: '0.8rem', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <ShieldCheck size={20} className="text-primary" /> Roles de Aprobación Obligatorios
+        </h4>
+
+        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+            <table className="premium-table" style={{ margin: 0 }}>
+                <thead>
+                    <tr>
+                        <th>Orden</th>
+                        <th>Nivel de Aprobación</th>
+                        <th>Rol Asignado</th>
+                        <th style={{ textAlign: 'center' }}>Habilitado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style={{ fontWeight: 800 }}>1</td>
+                        <td>Validación de Sucursal</td>
+                        <td><strong style={{ color: 'var(--secondary)' }}>Jefe de Agencia / Filial</strong></td>
+                        <td style={{ textAlign: 'center' }}><span className="badge active">SI</span></td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 800 }}>2</td>
+                        <td>Auditoría Financiera</td>
+                        <td><strong style={{ color: 'var(--secondary)' }}>Contabilidad Central</strong></td>
+                        <td style={{ textAlign: 'center' }}><span className="badge active">SI</span></td>
+                    </tr>
+                    <tr>
+                        <td style={{ fontWeight: 800 }}>3</td>
+                        <td>Autorización de Egreso</td>
+                        <td><strong style={{ color: 'var(--secondary)' }}>Gerencia de Sistemas / Gral</strong></td>
+                        <td style={{ textAlign: 'center' }}><span className="badge active">SI</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#fff9eb', borderRadius: '15px', border: '1px solid #feebc8', display: 'flex', gap: '15px' }}>
+            <Info size={24} style={{ color: '#d97706', flexShrink: 0 }} />
+            <p style={{ fontSize: '0.85rem', color: '#92400e', margin: 0, lineHeight: 1.5 }}>
+                <strong>Nota Comercial:</strong> El flujo de aprobación multirrol es obligatorio para todas las liquidaciones DAARO cuyo monto neto exceda los 50,000 Bs. Las liquidaciones menores se procesan con aprobación simple de Jefe de Agencia.
+            </p>
         </div>
     </div>
 );

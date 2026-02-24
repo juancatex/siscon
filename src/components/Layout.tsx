@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
-    Home, Users, Briefcase, FileText, Settings, HelpCircle, LogOut, Landmark, ChevronDown, Bell, Search, Menu, X
+    Home, Users, Briefcase, FileText, Settings, HelpCircle, LogOut, Landmark, ChevronDown, Bell, Search, Menu, X, Wallet
 } from 'lucide-react';
 import { MOCK_DATA } from '../data/mockData';
 
 const Sidebar: React.FC<{ isOpen: boolean, toggle: () => void }> = ({ isOpen, toggle }) => {
     const navigate = useNavigate();
+    const [daaroOpen, setDaaroOpen] = useState(false);
 
     return (
         <aside className={`sidebar ${isOpen ? 'show' : ''}`} style={{ transform: isOpen ? 'translateX(0)' : '' }}>
@@ -23,6 +24,24 @@ const Sidebar: React.FC<{ isOpen: boolean, toggle: () => void }> = ({ isOpen, to
                 <SidebarItem icon={<Users size={22} />} label="Gestión de Socios" to="/dashboard/socios" onClick={toggle} />
                 <SidebarItem icon={<Briefcase size={22} />} label="Préstamos" to="/dashboard/prestamos" onClick={toggle} />
                 <SidebarItem icon={<FileText size={22} />} label="Aportes" to="/dashboard/aportes" onClick={toggle} />
+
+                <SidebarItemWithSubmenu
+                    icon={<Wallet size={22} />}
+                    label="DAARO"
+                    isOpen={daaroOpen}
+                    toggle={() => setDaaroOpen(!daaroOpen)}
+                >
+                    <NavLink to="/dashboard/daaro" className="submenu-item" onClick={toggle}>
+                        Devolución de Aportes
+                    </NavLink>
+                    <NavLink to="/dashboard/daaro/gestion" className="submenu-item" onClick={toggle}>
+                        Gestión de Liquidaciones
+                    </NavLink>
+                    <NavLink to="/dashboard/daaro/reportes" className="submenu-item" onClick={toggle}>
+                        Reportes de Liquidación
+                    </NavLink>
+                </SidebarItemWithSubmenu>
+
                 <SidebarItem icon={<Landmark size={22} />} label="Contabilidad" to="/dashboard/contabilidad" onClick={toggle} />
 
                 <div className="nav-separator">Administración</div>
@@ -50,6 +69,21 @@ const SidebarItem = ({ icon, label, to, onClick }: { icon: any, label: string, t
         {icon}
         <span>{label}</span>
     </NavLink>
+);
+
+const SidebarItemWithSubmenu = ({ icon, label, children, isOpen, toggle }: { icon: any, label: string, children: React.ReactNode, isOpen: boolean, toggle: () => void }) => (
+    <div className={`nav-item-dropdown ${isOpen ? 'open' : ''}`}>
+        <div className="nav-item" onClick={toggle}>
+            {icon}
+            <span>{label}</span>
+            <ChevronDown size={16} style={{ marginLeft: 'auto', transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />
+        </div>
+        {isOpen && (
+            <div className="submenu">
+                {children}
+            </div>
+        )}
+    </div>
 );
 
 const AppLayout: React.FC = () => {

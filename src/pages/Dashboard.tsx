@@ -132,6 +132,68 @@ const Dashboard: React.FC = () => {
                         ))}
                     </div>
                 </div>
+
+                {/* DAARO BY BRANCH (PIE CHART) */}
+                <div className="card">
+                    <div style={{ marginBottom: '1.5rem' }}>
+                        <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 700 }}>Liquidaciones DAARO por Sucursal</h3>
+                        <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#94a3b8' }}>Participación porcentual de cierres por agencia</p>
+                    </div>
+                    <div style={{ height: '300px' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie
+                                    data={[
+                                        { name: 'Matriz Principal', value: 45, color: '#396CF0' },
+                                        { name: 'Sucursal Norte', value: 25, color: '#2FDE91' },
+                                        { name: 'Agencia Sur', value: 30, color: '#FFA500' }
+                                    ]}
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius={100}
+                                    dataKey="value"
+                                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                                >
+                                    {['#396CF0', '#2FDE91', '#FFA500'].map((color, index) => (
+                                        <Cell key={`cell-${index}`} fill={color} />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+
+                {/* DAARO BY USER (BAR CHART) */}
+                <div className="card">
+                    <div style={{ marginBottom: '1.5rem' }}>
+                        <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: 700 }}>Liquidaciones por Operador</h3>
+                        <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#94a3b8' }}>Volumen de transacciones procesadas</p>
+                    </div>
+                    <div style={{ height: '300px' }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                                layout="vertical"
+                                data={[
+                                    { name: 'Admin Demo', qty: 124 },
+                                    { name: 'Oficial Crédito', qty: 98 },
+                                    { name: 'Cajero Principal', qty: 76 },
+                                    { name: 'Auxiliar Contable', qty: 45 }
+                                ]}
+                                margin={{ left: 20 }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f1f5f9" />
+                                <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 12 }} />
+                                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: '#475569', fontSize: 12, fontWeight: 600 }} width={120} />
+                                <Tooltip
+                                    cursor={{ fill: 'rgba(57, 108, 240, 0.05)' }}
+                                    contentStyle={{ borderRadius: '15px', border: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
+                                />
+                                <Bar dataKey="qty" fill="#396CF0" radius={[0, 4, 4, 0]} barSize={25} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
             </div>
         </div>
     );
